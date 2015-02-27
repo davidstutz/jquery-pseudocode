@@ -1,0 +1,30 @@
+{
+  "name": "jquery-pseudocode",
+  "description": "jQuery plugin for LaTeX style algorithms/pseudocode.",
+  "homepage": "http://davidstutz.github.io/jquery-pseudocode/",
+  "version": "0.9",
+  "keywords": [
+      "js",
+      "css",
+      "less",
+      "jquery"
+  ],
+  "main": [
+    "./dist/js/jquery-pseudocode.js",
+    "./dist/css/jquery-pseudocode.css",
+    "./dist/less/jquery-pseudocode.less"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.11.0",
+    "bootstrap": ">= 2.3.2"
+  },
+  "ignore": [
+    "docs/.*",
+    "tests/.*",
+    "*.html",
+    "*.git*",
+    "*.md",
+    "*.png",
+    "*.php"
+  ]
+}

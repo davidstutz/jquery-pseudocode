@@ -1,0 +1,335 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <title>jQuery Pseudocode</title>
+        <meta name="robots" content="noindex, nofollow" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+        <link rel="stylesheet" href="docs/css/bootstrap-3.3.2.min.css" type="text/css">
+        <link rel="stylesheet" href="docs/css/bootstrap-example.css" type="text/css">
+        <link rel="stylesheet" href="docs/css/prettify.css" type="text/css">
+
+        <script type="text/javascript" src="docs/js/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="docs/js/bootstrap-3.3.2.min.js"></script>
+        
+        <script type="text/javascript" src="docs/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                window.prettyPrint() && prettyPrint();
+            });
+        </script>
+        
+        
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+            });
+        </script>
+        
+        <script type="text/javascript" src="dist/js/jquery-pseudocode.js"></script>
+        <link rel="stylesheet" href="dist/css/jquery-pseudocode.css" type="text/css">
+    </head>
+    <body data-spy="scroll" data-target="#affix">
+	<a href="https://github.com/davidstutz/jquery-pseudocode"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" id="affix">
+                    <ul class="nav nav-pills nav-stacked sidebar" data-spy="affix" style="margin-top: 40px;">
+                        <li class="active"><a href="#getting-started">Getting Started</a></li>
+                        <li><a href="#configuration-options">Configuration Options</a></li>
+                        <li><a href="#license">License</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="page-header">
+                        <h1>jQuery Pseudocode</h1>
+                    </div>
+                    
+                    <p>Lightweight and simple jQuery plugin for displaying pseudo code (similar to several algorithm/pseudocode packages for LaTeX, as for example <a href="https://github.com/davidstutz/latex-resources/tree/master/packages" target="_blank"><code>algo.sty</code></a>).</p>
+                    
+                    <p class="alert alert-info">
+                        <b>Note that thebelow examples use <a href="http://www.mathjax.org/" target="_blank">MathJax</a> for displaying LaTeX equations.</b>
+                    </p>
+                    
+                    <div class="page-header">
+                        <h2 id="getting-started">Getting Started</h2>
+                    </div>
+                    
+                    <ol>
+                        <li>
+                            <h3>Link the Required Files</h3>
+
+                            <p>
+                                First, <a href="http://jquery.com/" target="_blank">jQuery</a> needs to be included. In addition, MathJax may be included and initialized. Finally, include jQuery Pseudocode (both JS and CSS):
+                            </p>
+
+<pre class="prettyprint linenums">
+&lt;!-- Include Twitter Bootstrap and jQuery: --&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/x-mathjax-config&quot;&gt;
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+&lt;/script&gt;
+
+&lt;!-- Include jQuery Pseudocode: --&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-pseudocode.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery-pseudocode.css&quot; type=&quot;text/css&quot;/&gt;
+</pre>
+
+                            <p>
+                                jQuery can also be included using a CDN, for example the <a href="https://developers.google.com/speed/libraries/devguide?hl=de&csw=1#jquery">Google CDN</a>:
+                            </p>
+
+<pre class="prettyprint linenums">
+&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"&gt;&lt;/script&gt;
+</pre>
+                        </li>
+                        <li>
+                            <h3>Write Pseudocode</h3>
+
+                            <p>
+                                Write your pseudo code - the syntax is similar to python, that is the system is indentation based. Note that keywords and comment styles can be adapted:
+                            </p>
+
+<pre class="prettyprint linenums">
+&lt;pre&gt;
+var N = 6
+var j = 4
+for i = 1 to N
+    // A simple if statement:
+    if i = j
+        N = N + 1
+&lt;/pre&gt;
+</pre>
+                            <p><b>Note:</b> per default, indentation is set to four whitespaces.</p>
+                        </li>
+                        <li>
+                            <h3>Call the Plugin</h3>
+
+                            <p>
+                                In the end, simply call the plugin on your <code>select</code>. You may also specify further options, see the Options tab for further information.
+                            </p>
+
+                            <div class="example">
+                                <script type="text/javascript">
+                                    $(document).ready(function() {
+                                        $('#example-getting-started').pseudocode();
+                                    });
+                                </script>
+<pre id="example-getting-started">
+var N = 6
+var j = 4
+for i = 1 to N
+    // A simple if statement:
+    if i = j
+        N = N + 1
+</pre>
+                            </div>
+                            <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type="text/javascript"&gt;
+    $(document).ready(function() {
+        $('#example-getting-started').pseudocode();
+    });
+&lt;/script&gt;
+&lt;pre&gt;
+var N = 6
+var j = 4
+for i = 1 to N
+    // A simple if statement:
+    if i = j
+        N = N + 1
+&lt;/pre&gt;
+</pre>
+                            </div>
+                        </li>
+                    </ol>
+                    
+                    <div class="page-header">
+                        <h2 id="configuration-options">Configuration Options</h2>
+                    </div>
+                    
+                    <table class="table">
+                        <tr>
+                            <td><code>keywords</code></td>
+                            <td>
+                                <p>Allows to add keywords and adjust the color. Note that the below example <u>does not use MathJax</u>.</p>
+                                
+                                <div class="example">
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+                                            $('#example-keywords').pseudocode({
+                                                keywords: {
+                                                    'if': '#990000',
+                                                    'for': '#990000',
+                                                    'var': '#990000',
+                                                    'function': '#990000',
+                                                    'return': '#990000',
+                                                    'this': '#990000'
+                                                }
+                                            });
+                                        });
+                                    </script>
+<pre id="example-keywords">
+var N = 6
+var j = 4
+for i = 1 to N
+    // A simple if statement:
+    if i = j
+        N = N + 1
+</pre>
+                                </div>
+                                <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type="text/javascript"&gt;
+    $('#example-keywords').pseudocode({
+        keywords: {
+            'if': '#990000',
+            'for': '#990000',
+            'var': '#990000',
+            'function': '#990000',
+            'return': '#990000',
+            'this': '#990000'
+        }
+    });
+&lt;/script&gt;
+&lt;pre&gt;
+var N = 6
+var j = 4
+for i = 1 to N
+    // A simple if statement:
+    if i = j
+        N = N + 1
+&lt;/pre&gt;
+</pre>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>comment</code></td>
+                            <td>
+                                <p>Allows to add characters used for comments as well as their color. <b>Note that currently, only full line comments are supported - inline comments as for example using <code>/* ... */</code> in C++, are not supported.</b></p>
+                                
+                                <div class="example">
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+                                            $('#example-comment').pseudocode({
+                                                comment: {
+                                                    '//': '#990000',
+                                                    '%': '#990000'
+                                                }
+                                            });
+                                        });
+                                    </script>
+<pre id="example-comment">
+var N = 6
+var j = 4
+for i = 1 to N
+    % Different comment style before if statement:
+    if i = j
+        N = N + 1
+</pre>
+                                </div>
+                                <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type="text/javascript"&gt;
+    $('#example-comment').pseudocode({
+        comment: {
+            '//': '#990000',
+            '%': '#990000'
+        }
+    });
+&lt;/script&gt;
+&lt;pre&gt;
+var N = 6
+var j = 4
+for i = 1 to N
+    % Different comment style before if statement:
+    if i = j
+        N = N + 1
+&lt;/pre&gt;
+</pre>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>tab</code></td>
+                            <td>
+                                <p>Conrols the number of whitespaces needed for indentation, that is one tab consists of <code>tab</code> whitespaces:</p>
+                                
+                                <div class="example">
+                                    <script type="text/javascript">
+                                        $(document).ready(function() {
+                                            $('#example-tab').pseudocode({
+                                                tab: 2
+                                            });
+                                        });
+                                    </script>
+<pre id="example-tab">
+var N = 6
+var j = 4
+for i = 1 to N
+  // A simple if statement:
+  if i = j
+    N = N + 1
+</pre>
+                                </div>
+                                <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type="text/javascript"&gt;
+    $('#example-tab').pseudocode({
+        tab: 2
+    });
+&lt;/script&gt;
+&lt;pre&gt;
+var N = 6
+var j = 4
+for i = 1 to N
+  // A simple if statement:
+  if i = j
+    N = N + 1
+&lt;/pre&gt;
+</pre>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <div class="page-header">
+                        <h2 id="license">License</h2>
+                    </div>
+                    
+                    <p>
+                        Copyright (c) 2015 David Stutz<br>
+                        All rights reserved.
+                    </p>
+                    
+                    <p>
+                        Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+                    </p>
+                    
+                    <ul>
+                        <li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+                        <li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</li>
+                        <li>Neither the name of David Stutz nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
+                    </ul>
+                    
+                    <p>
+                        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+                    </p>
+                    
+                    <hr>
+                    <p>
+                        &copy; 2015
+                        <a href="http://davidstutz.de">David Stutz</a> - <a href="http://opensource.org/licenses/BSD-3-Clause">BSD 3-Clause License</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

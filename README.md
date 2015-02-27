@@ -2,8 +2,9 @@
 
 Lightweight and simple jQuery plugin for displaying pseudo code (similar to several algorithm/pseudocode packages for LaTeX, as for example [`algo.sty`](https://github.com/davidstutz/latex-resources/tree/master/packages)).
 
-![Example pseudocode.](example.png?raw=true "Example pseudocode.")
+Documentation and examples can be found at [http://davidstutz.github.io/jquery-pseudocode/](http://davidstutz.github.io/jquery-pseudocode/).
 
+![Example pseudocode.](example.png?raw=true "Example pseudocode.")
 
 ## License
 

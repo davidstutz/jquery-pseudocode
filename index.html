@@ -39,6 +39,7 @@
                     <ul class="nav nav-pills nav-stacked sidebar" data-spy="affix" style="margin-top: 40px;">
                         <li class="active"><a href="#getting-started">Getting Started</a></li>
                         <li><a href="#configuration-options">Configuration Options</a></li>
+                        <li><a href="#examples">Examples</a>
                         <li><a href="#license">License</a></li>
                     </ul>
                 </div>
@@ -299,6 +300,487 @@ for i = 1 to N
                             </td>
                         </tr>
                     </table>
+                    
+                    <div class="page-header">
+                        <h2 id="examples">Examples</h2>
+                    </div>
+                    
+                    <p>
+                        The below example is taken from <a href="http://davidstutz.de/efficient-high-quality-superpixels-seeds-revised/" target="_blank">davidstutz.de</a> and represents the SEEDS superpixel algorithm (van den Bergh et al., 2012):
+                    </p>
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-seeds').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'for': '#000066',
+                                        'each': '#000066',
+                                        'return': '#000066',
+                                        'function': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-seeds">
+function SEEDS(
+        $I$, // Color image.
+        $w^{(1)} \times h^{(1)}$, // Initial block size.
+        $L$, // Number of levels.
+        $Q$ // Histogram size.
+    )
+    initialize the block hierarchy and the initial superpixel segmentation
+    // Initialize histograms for all blocks and superpixels:
+    for $l = 1$ to $L$
+        // At level $l = L$ these are the initial superpixels:
+        for each block $B_i^{(l)}$ 
+            initialize histogram $h_{B_i^{(l)}}$
+    // Block updates:
+    for $l = L - 1$ to $1$
+        for each block $B_i^{(l)}$
+            let $S_j$ be the superpixel $B_i^{(l)}$ belongs to
+            if a neighboring block belongs to a different superpixel $S_k$
+                if $\cap(h_{B_i^{(l)}}, h_{S_k}) > \cap(h_{B_i^{(l)}}, h_{S_j})$
+                    $S_k := S_k \cup B_i^{(l)}$, $S_j := S_j - B_i^{(l)}$
+    // Pixel updates:
+    for $n = 1$ to $W\cdot H$
+        let $S_j$ be the superpixel $x_n$ belongs to
+        if a neighboring pixel belongs to a different superpixel $S_k$
+            if $h_{S_k}(h(x_n)) > h_{S_j}(h(x_n))$
+                $S_k := S_k \cup \{x_n\}$, $S_j := S_j - \{x_n\}$
+    return $S$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-seeds').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'each': '#000066',
+            'return': '#000066',
+            'function': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-seeds&quot;&gt;
+function SEEDS(
+        $I$, // Color image.
+        $w^{(1)} \times h^{(1)}$, // Initial block size.
+        $L$, // Number of levels.
+        $Q$ // Histogram size.
+    )
+    initialize the block hierarchy and the initial superpixel segmentation
+    // Initialize histograms for all blocks and superpixels:
+    for $l = 1$ to $L$
+        for each block $B_i^{(l)}$ // At level $l = L$ these are the initial superpixels.
+            initialize histogram $h_{B_i^{(l)}}$
+    // Block updates:
+    for $l = L - 1$ to $1$
+        for each block $B_i^{(l)}$
+            let $S_j$ be the superpixel $B_i^{(l)}$ belongs to
+            if a neighboring block belongs to a different superpixel $S_k$
+                if $\cap(h_{B_i^{(l)}}, h_{S_k}) > \cap(h_{B_i^{(l)}}, h_{S_j})$
+                    $S_k := S_k \cup B_i^{(l)}$, $S_j := S_j - B_i^{(l)}$
+    // Pixel updates:
+    for $n = 1$ to $W\cdot H$
+        let $S_j$ be the superpixel $x_n$ belongs to
+        if a neighboring pixel belongs to a different superpixel $S_k$
+            if $h_{S_k}(h(x_n)) > h_{S_j}(h(x_n))$
+                $S_k := S_k \cup \{x_n\}$, $S_j := S_j - \{x_n\}$
+    return $S$
+&lt;/pre&gt;
+</pre>
+                    </div>
+                    
+                    <p>
+                        The below exaple is also taken from <a href="http://davidstutz.de/turbopixels-fast-superpixels-using-geometric-flows-levinshtein-stere-kutulakos-fleet-dickinson-siddiqi/" target="_blank">davidstutz.de</a>. The Turbopixels superpixel algorithm was introduced by Levinshtein et al. in 2009:
+                    </p>
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-turbopixels').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'for': '#000066',
+                                        'repeat': '#000066',
+                                        'until': '#000066',
+                                        'return': '#000066',
+                                        'function': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-turbopixels">
+function turbopixels(
+        $I$, // Color image.
+        $K$, // Number of superpixels.
+    )
+    place initial superpixel centers on a regular grid
+    initialize $\psi^{(0)}$
+    repeat
+        compute $v_I$ and $v_B$
+        evolve the contour by computing $\psi^{(T+1)}$
+        update assigned pixels
+        $T := T + 1$
+    until all pixels are assigned
+    derive superpixel segmentation $S$ from $\psi$
+    return $S$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-turbopixels').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'repeat': '#000066',
+            'until': '#000066',
+            'return': '#000066',
+            'function': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-turbopixels&quot;&gt;
+function turbopixels(
+        $I$, // Color image.
+        $K$, // Number of superpixels.
+    )
+    place initial superpixel centers on a regular grid
+    initialize $\psi^{(0)}$
+    repeat
+        compute $v_I$ and $v_B$
+        evolve the contour by computing $\psi^{(T+1)}$
+        update assigned pixels
+        $T := T + 1$
+    until all pixels are assigned
+    derive superpixel segmentation $S$ from $\psi$
+    return $S$
+&lt;/pre&gt;
+</pre>
+                    </div>
+                    
+                    <p>The below example represents the Quick Shift algorithm introduced by Vedaldi and Soatto in 2008 (also taken from <a href="http://davidstutz.de/quick-shift-kernel-methods-mode-seeking-vedaldi-soatto/" target="_blank">davidstutz.de</a>):
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-quickshift').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'for': '#000066',
+                                        'function': '#000066',
+                                        'return': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-quickshift">
+function quickshift(
+        $I$ // Color image.
+    )
+    for $n = 1$ to $W\cdot H$
+        initialize $t(x_n) = 0$
+    for $n = 1$ to $W\cdot H$
+        // $N_R(x_n)$ is the set of all pixels in the neighborhood of size $N$ around $x_n$.
+        calculate $p(x_n) = \sum_{x_m \in N_R(x_n)} \exp\left(\frac{-d(x_n, x_m)}{(2/3)R}\right)$
+    for $n = 1$ to $W\cdot H$
+        set $t(x_n) = \arg \max_{x_m \in N_R(x_n):p(x_m) > p(x_n)}\{p(x_m)\}$
+    // $t$ can be interpreted as forest, where all pixels $x_n$ with $t(x_n) = 0$ are roots.
+    derive superpixel segmentation $S$ from $t$
+    return $S$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-quickshift').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'function': '#000066',
+            'return': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-quickshift&quot;&gt;
+function quickshift(
+        $I$ // Color image.
+    )
+    for $n = 1$ to $W\cdot H$
+        initialize $t(x_n) = 0$
+    for $n = 1$ to $W\cdot H$
+        // $N_R(x_n)$ is the set of all pixels in the neighborhood of size $N$ around $x_n$.
+        calculate $p(x_n) = \sum_{x_m \in N_R(x_n)} \exp\left(\frac{-d(x_n, x_m)}{(2/3)R}\right)$
+    for $n = 1$ to $W\cdot H$
+        set $t(x_n) = \arg \max_{x_m \in N_R(x_n):p(x_m) > p(x_n)}\{p(x_m)\}$
+    // $t$ can be interpreted as forest, where all pixels $x_n$ with $t(x_n) = 0$ are roots.
+    derive superpixel segmentation $S$ from $t$
+    return $S$
+&lt;/pre&gt;
+</pre>
+                    </div>
+                    
+                    <p>
+                        The following examples, also taken from <a href="http://davidstutz.de/entropy-rate-superpixel-segmentation-lui-tuzel-ramalingam-chellappa/" target="_blank">davidstutz.de</a>, presents the ERS - Entropy Rate Superpixels - algorithm (Lui et al., 2011):
+                    </p>
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-ers').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'for': '#000066',
+                                        'each': '#000066',
+                                        'function': '#000066',
+                                        'return': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-ers">
+function ers(
+        $G = (V,E)$ // Undirected weighted graph.
+    )
+    initialize $M = \emptyset$
+    for each edge $(n,m) \in E$
+        // Let $\hat{G}$ denote the graph $(V, M \cup \{(n,m)\})$:
+        let $(n,m)$ be the edge yielding the largest gain in the energy $E(\hat{G})$
+        if $\hat{G}$ contains $K$ connected components or less:
+            $M := M \cup \{(n,m)\}$.
+    derive superpixel segmentation $S$ from $\hat{G}$
+    return $S$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-ers').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'each': '#000066',
+            'function': '#000066',
+            'return': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-ers&quot;&gt;
+function ers(
+        $G = (V,E)$ // Undirected weighted graph.
+    )
+    initialize $M = \emptyset$
+    for each edge $(n,m) \in E$
+        // Let $\hat{G}$ denote the graph $(V, M \cup \{(n,m)\})$:
+        let $(n,m)$ be the edge yielding the largest gain in the energy $E(\hat{G})$
+        if $\hat{G}$ contains $K$ connected components or less:
+            $M := M \cup \{(n,m)\}$.
+    derive superpixel segmentation $S$ from $\hat{G}$
+    return $S$
+&lt;/pre&gt;
+</pre>
+                    </div>
+                    
+                    <p>
+                        The graph based segmentation algorithm proposed by Felzenswalb and Huttenlocher (2004), taken from <a href="http://davidstutz.de/efficient-graph-based-image-segmentation-felzenswalb-huttenlocher/" target="_blank">davidstutz.de</a>:
+                    </p>
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-fh').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'for': '#000066',
+                                        'each': '#000066',
+                                        'function': '#000066',
+                                        'return': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-fh">
+function fh(
+        $G = (V,E)$ // Undirected, weighted graph.
+    )
+    sort $E$ by increasing edge weight
+    let $S$ be the initial superpixel segmentation
+    for $k = 1,\ldots,|E|$
+        let $(n,m)$ be the $k^{\text{th}}$ edge
+            if the edge connects different superpixels $S_i,S_j \in S$
+                if $w_{n,m}$ is sufficiently small compared to $MInt(S_i,S_j)$
+                    merge superpixels $S_i$ and $S_j$
+    return $S$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-fh').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'each': '#000066',
+            'function': '#000066',
+            'return': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-fh&quot;&gt;
+function fh(
+        $G = (V,E)$ // Undirected, weighted graph.
+    )
+    sort $E$ by increasing edge weight
+    let $S$ be the initial superpixel segmentation
+    for $k = 1,\ldots,|E|$
+        let $(n,m)$ be the $k^{\text{th}}$ edge
+            if the edge connects different superpixels $S_i,S_j \in S$
+                if $w_{n,m}$ is sufficiently small compared to $MInt(S_i,S_j)$
+                    merge superpixels $S_i$ and $S_j$
+    return $S$
+&lt;/pre&gt;
+</pre>
+                    </div>
+                    
+                    <p>
+                        Online Baggign proposed by Oza in 2005, taken from <a href="http://davidstutz.de/online-bagging-and-boosting/" target="_blank">davidstutz.de</a>:
+                    </p>
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-online-bagging').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'for': '#000066',
+                                        'function': '#000066',
+                                        'return': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-online-bagging">
+function online_bagging(
+        $(x_n,t_n)$ // Sample.
+    )
+    for $m = 1, \ldots, M$
+        $k \sim Poisson(1)$
+        for $i = 1,\ldots,k$
+            train $h_m$ on $x_n$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-online-bagging').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'function': '#000066',
+            'return': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-online-bagging&quot;&gt;
+function online_bagging(
+        $(x_n,t_n)$ // Sample.
+    )
+    for $m = 1, \ldots, M$
+        $k \sim Poisson(1)$
+        for $i = 1,\ldots,k$
+            train $h_m$ on $x_n$
+&lt;/pre&gt;
+</pre>
+                    </div>
+                    
+                    <p>
+                        Online Boosting proposed by Oza in 2005, taken from <a href="http://davidstutz.de/online-bagging-and-boosting/" target="_blank">davidstutz.de</a>:
+                    </p>
+                    
+                    <div class="example example-mathjax">
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $('#example-online-boosting').pseudocode({
+                                    keywords: {
+                                        'if': '#000066',
+                                        'else': '#000066',
+                                        'for': '#000066',
+                                        'function': '#000066',
+                                        'return': '#000066'
+                                    }
+                                });
+                            });
+                        </script>
+<pre id="example-online-boosting">
+function online_boosting(
+        $(x_n,t_n)$ // Sample.
+    )
+    initialize $\lambda = 1$
+    for $m = 1,\ldots, M$
+        $k \sim Poisson(\lambda)$
+        for $i = 1,\ldots,k$
+            train $h_m$ on $x_n$
+            if $h_m(x_n) = t_n$
+                $\lambda_m^{corr} += \lambda$
+                $\epsilon_m = \lambda_m^{wrong}/(\lambda_m^{corr} + \lambda_M^{wrong}$
+                $\lambda = \lambda/(2(1 - \epsilon_m))$
+            else
+                $\lambda_m^{wrong} += \lambda$
+                $\epsilon_m = \lambda_m^{wrong}/(\lambda_m^{corr} + \lambda_M^{wrong}$
+                $\lambda = \lambda/(2\epsilon_m)$
+</pre>
+                    </div>
+                    <div class="highlight">
+<pre class="prettyprint linenums">
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function() {
+    $('#example-online-boosting').pseudocode({
+        keywords: {
+            'if': '#000066',
+            'for': '#000066',
+            'function': '#000066',
+            'return': '#000066'
+        }
+    });
+});
+&lt;/script&gt;
+&lt;pre id=&quot;example-online-boosting&quot;&gt;
+function online_boosting(
+        $(x_n,t_n)$ // Sample.
+    )
+    initialize $\lambda = 1$
+    for $m = 1,\ldots, M$
+        $k \sim Poisson(\lambda)$
+        for $i = 1,\ldots,k$
+            train $h_m$ on $x_n$
+            if $h_m(x_n) = t_n$
+                $\lambda_m^{corr} += \lambda$
+                $\epsilon_m = \lambda_m^{wrong}/(\lambda_m^{corr} + \lambda_M^{wrong}$
+                $\lambda = \lambda/(2(1 - \epsilon_m))$
+            else
+                $\lambda_m^{wrong} += \lambda$
+                $\epsilon_m = \lambda_m^{wrong}/(\lambda_m^{corr} + \lambda_M^{wrong}$
+                $\lambda = \lambda/(2\epsilon_m)$
+&lt;/pre&gt;
+</pre>
+                    </div>
                     
                     <div class="page-header">
                         <h2 id="license">License</h2>

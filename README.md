@@ -4,6 +4,12 @@ Lightweight and simple jQuery plugin for displaying pseudo code (similar to seve
 
 Documentation and examples can be found at [http://davidstutz.github.io/jquery-pseudocode/](http://davidstutz.github.io/jquery-pseudocode/).
 
+Further examples can be found in various articles at [davidstutz.de](https://davidstutz.de), e.g.:
+
+* [Efficient High Quality Superpixels: SEEDS Revised](http://davidstutz.de/efficient-high-quality-superpixels-seeds-revised/)
+* [Oza: Online Bagging and Boosting](http://davidstutz.de/online-bagging-and-boosting/)
+* ...
+
 ![Example pseudocode.](example.png?raw=true "Example pseudocode.")
 
 ## License

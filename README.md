@@ -14,7 +14,7 @@ Further examples can be found in various articles at [davidstutz.de](https://dav
 
 ## License
 
-Copyright (c) 2015 David Stutz
+Copyright (c) 2015 - 2016 David Stutz
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:

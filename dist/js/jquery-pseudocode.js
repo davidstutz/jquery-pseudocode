@@ -1,7 +1,7 @@
 /**
- * Bootstrap Multiselect v0.9.0 (https://github.com/davidstutz/jquery-pseudocode)
+ * jQuery Pseudocode (https://github.com/davidstutz/jquery-pseudocode)
  * 
- * Copyright 2015 David Stutz
+ * Copyright 2015 - 2016 David Stutz
  * 
  * Licensed under BSD-3-Clause
  */
